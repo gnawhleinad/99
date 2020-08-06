@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+OPTS="--extract-audio --audio-quality 0"
+
+link="$1"
+
+out=$(youtube-dl "$OPTS" --get-filename --output "%(id)s.%(ext)s" "$link")
+
+if [ $# -eq 1 ]; then
+  youtube-dl "$OPTS" --no-part --output "$out" "$link"
+fi
+
+if [ $# -eq 1 ]; then
+  youtube-dl "$OPTS" --no-part --output "$out" \
+    "$link"
+elif [ $# -eq 2 ]; then
+  duration="$2"
+  youtube-dl "$OPTS" --no-part --output "$out" \
+    --postprocessor-args "-ss 0 -t $duration" \
+    "$link"
+else
+  echo "ERROR: nah"
+  exit 1
+fi

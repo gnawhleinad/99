@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+sox "$1" "$2" fade 0 -0 "$3"
